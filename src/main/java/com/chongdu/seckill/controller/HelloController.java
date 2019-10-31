@@ -1,4 +1,4 @@
-package com.chongdu.seckill.Controller;
+package com.chongdu.seckill.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
