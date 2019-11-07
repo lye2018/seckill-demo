@@ -41,7 +41,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         //生成代码，多张表用逗号分隔
-        generate("lye", "com.chongdu.seckill.entity", "seckill_product");
+        generate("lye", "com.chongdu.seckill.account", "chongdu_user");
     }
 
 
@@ -170,7 +170,7 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        //strategy.setTablePrefix("tb");
+        strategy.setTablePrefix("chongdu");
         strategy.setInclude(tableName);
         strategy.setRestControllerStyle(true);
 
@@ -245,13 +245,13 @@ public class CodeGenerator {
             tableNames.forEach(
                     tableName -> {
                         String entityName = underlineToCamel(tableName);
-//                        String prefix = "tb";
-//                        //如果有前缀,需要去掉前缀
-//                        if (tableName.startsWith(prefix)) {
-//                            String tableNameRemovePrefix = tableName.substring((prefix + "_").length());
-//                            entityName = underlineToCamel(tableNameRemovePrefix);
-//                            System.out.println("******"+entityName+"******");
-//                        }
+                        String prefix = "chongdu";
+                        //如果有前缀,需要去掉前缀
+                        if (tableName.startsWith(prefix)) {
+                            String tableNameRemovePrefix = tableName.substring((prefix + "_").length());
+                            entityName = underlineToCamel(tableNameRemovePrefix);
+                            System.out.println("******"+entityName+"******");
+                        }
 
                         result.put(tableName, entityName);
                     }
