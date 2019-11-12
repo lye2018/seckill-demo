@@ -2,6 +2,7 @@ package com.chongdu.seckill.account.service;
 
 import com.chongdu.seckill.account.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chongdu.seckill.common.exception.ServiceException;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 小程序登录使用
+     * @param unionid
+     * @return
+     * @throws ServiceException
+     */
+    public User loginByWxUnionId(String unionid) throws ServiceException;
 }

@@ -3,7 +3,7 @@ package com.chongdu.seckill.common.annotation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.chongdu.seckill.account.service.IAuthService;
+import com.chongdu.seckill.account.service.AuthService;
 import com.chongdu.seckill.common.exception.ServiceException;
 import com.chongdu.seckill.common.vo.RestResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -29,7 +29,7 @@ public class AccessTokenAspect {
 	HttpServletResponse response;
 	
 	@Autowired
-	IAuthService authService;
+	AuthService authService;
 	
 	@Around("@annotation(com.chongdu.seckill.common.annotation.AccessToken)")
 	public Object doAccessCheck(ProceedingJoinPoint pjp) throws Throwable {

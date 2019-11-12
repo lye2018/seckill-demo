@@ -2,9 +2,12 @@ package com.chongdu.seckill.account.service.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chongdu.seckill.account.entity.User;
-import com.chongdu.seckill.account.service.IAuthService;
+import com.chongdu.seckill.account.mapper.UserMapper;
+import com.chongdu.seckill.account.service.AuthService;
 import com.chongdu.seckill.common.exception.ServiceException;
+import com.chongdu.seckill.common.service.RedisService;
 import com.chongdu.seckill.common.utils.JwtUtil;
 import com.chongdu.seckill.common.vo.CodeMsg;
 import org.slf4j.Logger;
@@ -17,21 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 import io.jsonwebtoken.Claims;
 
 @Service
-public class AuthServiceImpl implements IAuthService {
+public class AuthServiceImpl implements AuthService {
 
 	private final static Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 	
 	@Autowired
 	private HttpServletRequest request;
 	
-//	@Autowired
-//	UserMapper userMapper;
+	@Autowired
+	UserMapper userMapper;
 //
 //	@Autowired
 //	LoginLogMapper loginLogMapper;
 //
-//	@Autowired
-//	IRedisService redisService;
+	@Autowired
+	RedisService redisService;
 	
 /*	@Transactional
 	public boolean authByPassword(LoginByPasswordReq req, int clientType) throws ServiceException {
@@ -87,7 +90,7 @@ public class AuthServiceImpl implements IAuthService {
 	}*/
 
 	public String createToken(User user, int clientType) throws ServiceException {
-		// TODO Auto-generated method stub
+
 		String token = JwtUtil.createJwt(0, user);
 		redisService.set(user.getId(), token);
 		return token;
@@ -99,21 +102,21 @@ public class AuthServiceImpl implements IAuthService {
 		 try {
 
 	            // 登录用户是否存在，否则返回错误码
-	            User userInfo =  userMapper.selectOne(new QueryWrapper<User>().eq("phone", phone));        
+	            User userInfo =  userMapper.selectOne(new QueryWrapper<User>().eq("phone", phone));
 	            if (userInfo == null) throw new ServiceException(CodeMsg.RESOURCE_NOT_FOUNT.fillArgs("手机号用户未注册"));
-
-	            // 登录日志信息
-	            LoginLog loginLog = new LoginLog();
-	            loginLog.setUserId(userInfo.getId());
-	            String ip = IpAddress.getIpAddr(request);
-	            loginLog.setIp(ip);
-	            String t = String.valueOf(System.currentTimeMillis());
-	            loginLog.setLoginTime(t);
-	            loginLog.setType(1);
-	            loginLog.setMac(macAddress);
+//
+//	            // 登录日志信息
+//	            LoginLog loginLog = new LoginLog();
+//	            loginLog.setUserId(userInfo.getId());
+//	            String ip = IpAddress.getIpAddr(request);
+//	            loginLog.setIp(ip);
+//	            String t = String.valueOf(System.currentTimeMillis());
+//	            loginLog.setLoginTime(t);
+//	            loginLog.setType(1);
+//	            loginLog.setMac(macAddress);
 
 	            // 保存登录日志信息
-	            loginLogMapper.insertSelective(loginLog);
+//	            loginLogMapper.insertSelective(loginLog);
 
 	            // 返回结果
 	            return true;
@@ -142,7 +145,7 @@ public class AuthServiceImpl implements IAuthService {
 	    	// 校验token是否有效
 	    	String redisToken = redisService.get(userId);
 	    	if (null == redisToken || !redisToken.equals(token)) {
-	    		   throw new ServiceException(CodeMsg.PROXY_AUTHENTICATION_REQUIRED.fillArgs("登录身份已失效，请重新登录"));
+	    		   throw new ServiceException(CodeMsg.INVALID_TOKEN.fillArgs("登录身份已失效，请重新登录"));
 	    	}
 	  	
 	        return JwtUtil.JwtVerify(claims, user);

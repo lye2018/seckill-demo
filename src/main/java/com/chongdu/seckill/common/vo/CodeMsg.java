@@ -9,7 +9,7 @@ public class CodeMsg {
     public static CodeMsg SUCCESS = new CodeMsg(200,"处理成功", CodeMsgEnum.SUCCESS);
     public static CodeMsg INVALID_PARAM = new CodeMsg(400,"参数错误", CodeMsgEnum.INVALID_PARAM);
     public static CodeMsg UNAUTHORIZED = new CodeMsg(401,"授权失败", CodeMsgEnum.UNAUTHORIZED); /*用占位符 传入一个参数*/
-    public static CodeMsg NOT_FOUND = new CodeMsg(404,"请求资源不存在：%s", CodeMsgEnum.NOT_FOUND); /*用占位符 传入一个参数*/
+    public static CodeMsg RESOURCE_NOT_FOUNT = new CodeMsg(404,"请求资源不存在：%s", CodeMsgEnum.NOT_FOUND); /*用占位符 传入一个参数*/
     public static CodeMsg CONFLICT = new CodeMsg(409,"状态不符合：%s", CodeMsgEnum.CONFLICT); /*用占位符 传入一个参数*/
     public static CodeMsg SERVER_ERROR = new CodeMsg(500,"系统内部错误", CodeMsgEnum.SERVER_ERROR); /*用占位符 传入一个参数*/
     public static CodeMsg SERVICE_UNAVAILABLE = new CodeMsg(503, "服务暂不可用", CodeMsgEnum.SERVICE_UNAVAILABLE);
